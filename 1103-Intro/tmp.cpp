@@ -5,7 +5,6 @@
 
 #include <iostream> // header para imprimir a pantalla
 #include <cmath> // funciones y constantes matematicas, como fabs (valor absoluto) y M_PI (numero pi)
-#include "matplotlibcpp.h"
 
 // declaracion de las funciones (no cambiar)
 // n es el numero de terminos de la suma.
@@ -16,6 +15,7 @@ float f3(int n);
 
 int main(int argc, char **argv)
 {
+
   // configurar std::cout para que imprima en notacion cientifica y con 7 cifras decimales (precision de float)
   std::cout.precision(7);
   std::cout.setf(std::ios::scientific);
@@ -57,8 +57,8 @@ float f2(int n)
   bool con = true;
   for (int i = 0; i < n; i++)
   {
-      r = pow(2*i + 1,-1);
-      if (con)
+      r = pow(2.0*i + 1.0, -1);
+      if (con == true)
       {
           sum += r;
           con = false;
@@ -75,7 +75,7 @@ float f3(int n)
   // escribir aca la implementacion de la tercera forma de la suma hasta n terminos totales
   float res = 0;
   for(int i=0; i < n; i++){
-    res = (2.0/((4.0*i+1)*(4.0*i+3)));
+    res += (2.0/((4.0*i+1.0)*(4.0*i+3.0)));
   }
   return res;
 }
