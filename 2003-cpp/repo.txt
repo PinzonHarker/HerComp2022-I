@@ -1,0 +1,2 @@
+El archivo se encuentra en HerComp2022/2003-cpp/raiz.cpp en el siguiente repositorio:
+https://github.com/PinzonHarker/HerComp2022-I.git
