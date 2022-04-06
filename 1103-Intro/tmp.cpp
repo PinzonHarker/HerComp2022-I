@@ -57,17 +57,18 @@ float f2(int n)
   bool con = true;
   for (int i = 0; i < n; i++)
   {
-      r = pow(2.0*i + 1.0, -1);
+      // r = pow(2.0*i + 1.0, -1);
       if (con == true)
       {
-          sum += r;
+          sum += (1.0)/(2.0*i + 1.0);
           con = false;
+          //std::cout << "true";
       } else {
-          res += r;
+          res += (1.0)/(2.0*i + 1.0);
           con = true;
       }
   }
-  return sum-res;
+  return (sum-res);
 }
 
 float f3(int n)
