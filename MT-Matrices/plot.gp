@@ -3,10 +3,17 @@ set output "plot.pdf"
 
 set xlabel "Size of Matrix"
 set ylabel "Time [s]"
+# set logscale x 2
+set autoscale
+# set xrange [1 : 4096]
+
 
 set title "Optimization of matrix variations"
 
-plot "dataO0.txt" u 1:2:3 w lp lc "red" w yerrorbars lw 2 title "No optimization",    \
-    "dataO2.txt" u 1:2:3 w lp lc "green" w yerrorbars lw 2 title "-O2 flag",  \
-    "dataO3.txt" u 1:2:3 w lp lc "blue" w yerrorbars lw 2 title "-O3 flag"
+plot "dO0.dat" u 1:2:3 w errorbars lc "red" lw 1 title "No optimization" ,\
+     "" u 1:2 w lines notitle, \
+    "dO2.dat" u 1:2:3 w errorbars lc "green" lw 1 title "-O2 flag", \
+    "" u 1:2 w lines notitle,  \
+    "dO3.dat" u 1:2:3 w errorbars lc "blue" lw 1 title "-O3 flag", \
+     "" u 1:2 w lines notitle
 

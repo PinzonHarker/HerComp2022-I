@@ -1,0 +1,85 @@
+Herramientas Computacionales - 2022-1
+    Por Andrés Felipe Pinzón Harker
+
+#1 Previo Compilación
+    -> No compilo en principio por errores ->
+        --------------------------------------
+        fixme.cpp: In function ‘double baz(double)’:
+        fixme.cpp:35:9: error: return-statement with no value, in function returning ‘double’ [-fpermissive]
+        fixme.cpp:37:24: error: expected ‘;’ before ‘}’ token
+        ------------------------------------------------
+    -> Arreglados de forma superficial como:
+        35        return 0;
+        37    return std::sqrt(x);
+
+#2 Compilación y depuración primera:
+    ->Compilando nos reconoce un error evidente:
+        ----------------------
+        fixme.cpp:23:38: runtime error: division by zero
+        -------------------------
+    Debido a utilizar divisiones sin tratemiento de cero en denominador. Se corrige como:
+        24:     if(a == 0 || b == 0){
+        25:        return 0;
+        26:     }
+
+    ->Asignación de valor en un if, realmente quiere decir
+    37:    if (x = 0)... ------------------> 37:   if (x == 0)...
+
+    ->Se permite cambiar linea 30 por lo que se cree fue la intención.
+        30:     unsigned int c...   ----------> 30:  int c = abs(a);...
+    
+    ->Se opera el termino "v" y se devuelve "x", se corrige como:
+        43:     return std::sqrt(v);
+
+    ->No se admiten valores negativos en la sqrt:
+        43:     if(v < 0)
+        44:         return 0;
+
+#3 Problemas asociados.
+        ->Los sanitizers muestran lo siguiente:
+        ---------------------------------
+        ==7326==AddressSanitizer: libc interceptors initialized
+        || `[0x10007fff8000, 0x7fffffffffff]` || HighMem    ||
+        || `[0x02008fff7000, 0x10007fff7fff]` || HighShadow ||
+        || `[0x00008fff7000, 0x02008fff6fff]` || ShadowGap  ||
+        || `[0x00007fff8000, 0x00008fff6fff]` || LowShadow  ||
+        || `[0x000000000000, 0x00007fff7fff]` || LowMem     ||
+        MemToShadow(shadow): 0x00008fff7000 0x000091ff6dff 0x004091ff6e00 0x02008fff6fff
+        redzone=16
+        max_redzone=2048
+        quarantine_size_mb=256M
+        thread_local_quarantine_size_kb=1024K
+        malloc_context_size=30
+        SHADOW_SCALE: 3
+        SHADOW_GRANULARITY: 8
+        SHADOW_OFFSET: 0x7fff8000
+        ==7326==Installed the sigaction for signal 11
+        ==7326==Installed the sigaction for signal 7
+        ==7326==Installed the sigaction for signal 8
+        ==7326==T0: stack [0x7ffdd37e6000,0x7ffdd3fe6000) size 0x800000; local=0x7ffdd3fe33a4
+        ==7326==AddressSanitizer Init done
+        ==7327==Processing thread 7326.
+        ==7327==Stack at 0x7ffdd37e6000-0x7ffdd3fe6000 (SP = 0x7ffdd3fe2f98).
+        ==7327==TLS at 0x7f32d784ecc0-0x7f32d784fd80.
+        -----------------------------------------------
+    Lo cual se entiende no muestra problema. Al igual que Valgrind:
+        ==7333== Memcheck, a memory error detector
+        ==7333== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+        ==7333== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+        ==7333== Command: ./fixme.x
+        ==7333==
+        ==7333==ASan runtime does not come first in initial library list; you should either link runtime to your application or manually preload it with LD_PRELOAD.
+        ==7333== 
+        ==7333== HEAP SUMMARY:
+        ==7333==     in use at exit: 0 bytes in 0 blocks
+        ==7333==   total heap usage: 0 allocs, 0 frees, 0 bytes allocated
+        ==7333==
+        ==7333== All heap blocks were freed -- no leaks are possible
+        ==7333==
+        ==7333== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+    #Resultados
+
+        -> Habiendo hecho todas las pruebas, el programa parece en buen estado. Pasa las pruebas necesarias y no muestra error en ninguna de ellas
+        aparentemente.
+        
