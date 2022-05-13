@@ -1,21 +1,24 @@
-SIZES= 2 4 8 16 32 64 128 256 512 1024
-THREAD= 1 2 4 6
+SIZE= 1000
+THREAD= 1 2 3 4 5 6 #7 8 9 10 11 12
 FILE= MatrixMultip
+TARGET = data.dat
 DATA= $(foreach var, $(THREAD), thread$(var).dat )
 
 # all: $(DATA)
-all: $(FILE).x
+all: $(TARGET)
+
+$(TARGET): $(FILE).x
 	for T in $(THREAD); do \
-		for M in $(SIZES); do \
-		echo -n "$$M    "; \
-		OMP_NUM_THREADS=$$T ./$< $$M 0 50; \
-		done \
-		> thread$$T.dat; \
-	done
+		echo -n "$$T    "; \
+		OMP_NUM_THREADS=$$T ./$< $(SIZE) 0 50; \
+	done > $@
 
 plot: plot.gp
-	gnuplot plot.gp
+	gnuplot plotStats.gp
 
+stats: dataStats.cpp
+	g++ dataStats.cpp -o dataStats.x
+	./dataStats.x > stats.dat
 
 # OMP_NUM_THREADS=4 ./$< 1024 0 100
 

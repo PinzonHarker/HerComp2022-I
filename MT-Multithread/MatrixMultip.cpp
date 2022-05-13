@@ -40,7 +40,7 @@ double multiply(int size)
   double tmp = C(0, 0); // use the matrix to make eigen compute it
   auto end = std::chrono::steady_clock::now();
 
-  std::clog << tmp << std::endl; // use the matrix to make eigen compute it
+  // std::clog << tmp << std::endl; // use the matrix to make eigen compute it
 
   std::chrono::duration<double> elapsed_seconds = end-start;
   return elapsed_seconds.count();
